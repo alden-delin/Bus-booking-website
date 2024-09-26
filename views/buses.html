@@ -1,0 +1,25 @@
+<!-- buses.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Bus</title>
+</head>
+<body>
+    <h1>Select Your Bus</h1>
+    <form action="/select-seat" method="POST"> <!-- Ensure this matches the route in app.js -->
+        <label for="busId">Select Bus:</label>
+        <select name="busId" id="busId">
+            <option value="1">Bus 1 - Kochi - Rs500</option>
+            <option value="2">Bus 2 - Chennai - Rs700</option>
+            <option value="3">Bus 3 - Bangalore - Rs1300</option>
+        </select>
+
+        <label for="seatNumber">Select Seat Number:</label>
+        <input type="text" name="seatNumber" id="seatNumber" required>
+
+        <button type="submit">Select Seat</button>
+    </form>
+</body>
+</html>
