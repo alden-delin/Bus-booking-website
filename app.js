@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mysql = require('mysql');
 
 const app = express();
 const PORT = 3000;
@@ -16,22 +15,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// Database Connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // Replace with your actual MySQL username
-    password: '', // Replace with your actual MySQL password
-    database: 'bus_booking' // Replace with your database name
-});
-
-db.connect(err => {
-    if (err) {
-        console.error('Database connection error:', err);
-        return;
-    }
-    console.log('Connected to MySQL database.');
-});
-
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'signup.html')); // Serve sign-up page first
@@ -39,28 +22,18 @@ app.get('/', (req, res) => {
 
 app.post('/signup', (req, res) => {
     const { username, password } = req.body;
-    // Insert user into database (assuming you have a users table)
-    const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
-    db.query(query, [username, password], (err, results) => {
-        if (err) {
-            console.error('Error during signup:', err);
-            return res.status(500).send('Error during signup');
-        }
-        res.sendFile(path.join(__dirname, 'views', 'login.html')); // Redirect to login page
-    });
+    // Simulate signup (without database)
+    console.log(`User signed up with Username: ${username} and Password: ${password}`);
+    res.sendFile(path.join(__dirname, 'views', 'login.html')); // Redirect to login page
 });
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-    // Check user credentials (you need to handle this according to your authentication method)
-    const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-    db.query(query, [username, password], (err, results) => {
-        if (err || results.length === 0) {
-            return res.status(401).send('Invalid credentials'); // Authentication failed
-        }
-        // If authentication is successful, redirect to home
-        res.sendFile(path.join(__dirname, 'views', 'home.html'));
-    });
+    // Simulate login (without database)
+    console.log(`User login attempt with Username: ${username} and Password: ${password}`);
+    
+    // For simplicity, we'll assume the credentials are always valid
+    res.sendFile(path.join(__dirname, 'views', 'home.html')); // Redirect to home page on successful login
 });
 
 app.get('/buses', (req, res) => {
@@ -81,6 +54,7 @@ app.post('/personal-info', (req, res) => {
 app.post('/confirmation', (req, res) => {
     // Here you would finalize the booking (you can use session info if needed)
     const bookingId = Math.floor(Math.random() * 1000000); // Generate a mock booking ID
+    console.log(`Booking confirmed with ID: ${bookingId}`);
     res.sendFile(path.join(__dirname, 'views', 'confirmation.html'));
 });
 
